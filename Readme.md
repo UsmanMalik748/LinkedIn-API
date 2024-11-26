@@ -57,7 +57,7 @@ HttpClient and MessageFactory or you could fallback on auto discovery. Below is 
 instance.
 
 ```php
-$linkedIn=new usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
+$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
 $linkedIn->setHttpClient(new \Http\Adapter\Guzzle6\Client());
 $linkedIn->setHttpMessageFactory(new Http\Message\MessageFactory\GuzzleMessageFactory());
 
@@ -86,7 +86,7 @@ This example below is showing how to login with LinkedIn.
  */
 //require_once "vendor/autoload.php";
 
-$linkedIn=new usman\LinkedInApi\LinkedIn('client_id', 'client_secret');
+$linkedIn=new Usman\LinkedInApi\LinkedIn('client_id', 'client_secret');
 
 if ($linkedIn->isAuthenticated()) {
     //we know that the user is authenticated now. Start query the API
@@ -110,7 +110,7 @@ echo "<a href='$url'>Login with LinkedIn</a>";
 The example below shows how you can post on a users wall. The access token is fetched from the database. 
 
 ```php
-$linkedIn=new usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
+$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
 $linkedIn->setAccessToken('access_token_from_db');
 
 $options = array('json'=>
@@ -181,7 +181,7 @@ When using `array('json'=>$body)` as option the format will always be `json`. Yo
 
 ```php
 // By constructor argument
-$linkedIn=new usman\LinkedInApi\LinkedIn('app_id', 'app_secret', 'xml');
+$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret', 'xml');
 
 // By setter
 $linkedIn->setFormat('xml');
@@ -198,7 +198,7 @@ The data type returned from `LinkedIn::api` can be configured. You may use the f
 
 ```php
 // By constructor argument
-$linkedIn=new usman\LinkedInApi\LinkedIn('app_id', 'app_secret', 'json', 'array');
+$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret', 'json', 'array');
 
 // By setter
 $linkedIn->setResponseDataType('simple_xml');
@@ -224,7 +224,7 @@ Below is a table that specifies what the possible return data types are when you
 You might want to use an other storage than the default `SessionStorage`. If you are using Laravel
 you are more likely to inject the `IlluminateSessionStorage`.  
 ```php
-$linkedIn=new usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
+$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
 $linkedIn->setStorage(new IlluminateSessionStorage());
 ```
 
