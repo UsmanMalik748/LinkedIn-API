@@ -47,22 +47,6 @@ Now you may install the library by running the following:
 ```bash
 composer require usman/linkedinapi
 ```
-
-If you are updating form a previous version make sure to read [the upgrade documentation](Upgrade.md).
-
-### Finding the HTTP client (optional) 
-
-The LinkedIn client need to know what library you are using to send HTTP messages. You could provide an instance of 
-HttpClient and MessageFactory or you could fallback on auto discovery. Below is an example on where you provide a Guzzle6 
-instance.
-
-```php
-$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
-$linkedIn->setHttpClient(new \Http\Adapter\Guzzle6\Client());
-$linkedIn->setHttpMessageFactory(new Http\Message\MessageFactory\GuzzleMessageFactory());
-
-```
-
 ## Usage
 
 In order to use this API client (or any other LinkedIn clients) you have to [register your application][register-app]
@@ -90,8 +74,8 @@ $linkedIn=new Usman\LinkedInApi\LinkedIn('client_id', 'client_secret');
 
 if ($linkedIn->isAuthenticated()) {
     //we know that the user is authenticated now. Start query the API
-    $user=$linkedIn->get('v1/people/~:(firstName,lastName)');
-    echo "Welcome ".$user['firstName'];
+    $user=$linkedIn->get('v2/userinfo');
+    echo "Welcome ".$user['name'];
 
     exit();
 } elseif ($linkedIn->hasError()) {
@@ -122,7 +106,7 @@ $options = array('json'=>
     )
 );
 
-$result = $linkedIn->post('v1/people/~/shares', $options);
+$result = $linkedIn->post('v2/people/~/shares', $options);
 
 var_dump($result);
 
@@ -173,8 +157,8 @@ $body = array(
     'visibility' => array('code' => 'anyone')
 );
 
-$linkedIn->post('v1/people/~/shares', array('json'=>$body));
-$linkedIn->post('v1/people/~/shares', array('body'=>json_encode($body)));
+$linkedIn->post('v2/people/~/shares', array('json'=>$body));
+$linkedIn->post('v2/people/~/shares', array('body'=>json_encode($body)));
 ```
 
 When using `array('json'=>$body)` as option the format will always be `json`. You can change the request format in three ways.
@@ -187,7 +171,7 @@ $linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret', 'xml');
 $linkedIn->setFormat('xml');
 
 // Set format for just one request
-$linkedIn->post('v1/people/~/shares', array('format'=>'xml', 'body'=>$body));
+$linkedIn->post('v2/people/~/shares', array('format'=>'xml', 'body'=>$body));
 ```
 
 
@@ -198,13 +182,10 @@ The data type returned from `LinkedIn::api` can be configured. You may use the f
 
 ```php
 // By constructor argument
-$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret', 'json', 'array');
+$linkedIn=new Usman\LinkedInApi\LinkedIn('app_id', 'app_secret');
 
-// By setter
-$linkedIn->setResponseDataType('simple_xml');
 
-// Set format for just one request
-$linkedIn->get('v1/people/~:(firstName,lastName)', array('response_data_type'=>'psr7'));
+$linkedIn->get('v2/userinfo');
 
 ```
 
@@ -236,9 +217,9 @@ If you want to define special scopes when you authenticate the user you should s
 login url. If you don't specify scopes LinkedIn will use the default scopes that you have configured for the app.  
 
 ```php
-$scope = 'r_fullprofile,r_emailaddress,w_share';
+$scope = 'email,openid,profile,w_member_social';
 //or 
-$scope = array('rw_groups', 'r_contactinfo', 'r_fullprofile', 'w_messages');
+$scope = array('email', 'openid', 'profile', 'w_member_social');
 
 $url = $linkedIn->getLoginUrl(array('scope'=>$scope));
 echo "<a href='$url'>Login with LinkedIn</a>";
