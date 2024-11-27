@@ -78,7 +78,7 @@ class LinkedIn implements LinkedInInterface
      * @param string $format           'json', 'xml'
      * @param string $responseDataType 'array', 'string', 'simple_xml' 'psr7', 'stream'
      */
-    public function __construct($appId, $appSecret, $format = 'json', $responseDataType = 'array')
+    public function __construct($appId, $appSecret, $format = '', $responseDataType = 'array')
     {
         $this->format = $format;
         $this->responseDataType = $responseDataType;
